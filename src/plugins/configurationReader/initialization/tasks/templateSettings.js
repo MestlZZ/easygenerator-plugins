@@ -44,12 +44,12 @@ export default (settings, themeSettings, manifest) => {
     }
 
     /** Course logo */
-    if (fullSettings.branding.logo && fullSettings.branding.logo.url && fullSettings.branding.logo.url.length) {
+    if (fullSettings.branding && fullSettings.branding.logo && fullSettings.branding.logo.url && fullSettings.branding.logo.url.length) {
         defaultSettings.logoUrl = fullSettings.branding.logo.url;
     }
 
     /** Sections layout */
-    if (fullSettings.sectionsLayout.key !== null || fullSettings.sectionsLayout.key.trim() !== '') {
+    if (fullSettings.sectionsLayout && (fullSettings.sectionsLayout.key !== null || fullSettings.sectionsLayout.key.trim() !== '')) {
         defaultSettings.sectionsLayout = fullSettings.sectionsLayout.key;
     }
     
@@ -57,7 +57,7 @@ export default (settings, themeSettings, manifest) => {
     defaultSettings.colors = fullSettings.branding.colors;
     defaultSettings.fonts = fullSettings.fonts;
 
-    defaultSettings.background = fullSettings.branding.background;
+    defaultSettings.background = fullSettings.branding && fullSettings.branding.background;
     defaultSettings.xApi = fullSettings.xApi;
     defaultSettings.pdfExport = fullSettings.pdfExport;
     defaultSettings.showConfirmationPopup = fullSettings.showConfirmationPopup;
