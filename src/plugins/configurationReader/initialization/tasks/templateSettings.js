@@ -57,6 +57,13 @@ export default (settings, themeSettings, manifest) => {
     defaultSettings.colors = fullSettings.branding.colors;
     defaultSettings.fonts = fullSettings.fonts;
 
+    defaultSettings.timer = (fullSettings.timer && fullSettings.timer.enabled) && fullSettings.timer;
+    defaultSettings.questionPool = (fullSettings.questionPool && fullSettings.questionPool.mode) && fullSettings.questionPool;
+    defaultSettings.attempt = (fullSettings.attempt && fullSettings.attempt.hasLimit && fullSettings.attempt.limit) && fullSettings.attempt;
+    defaultSettings.answers = (fullSettings.answers && fullSettings.answers.randomize) && fullSettings.answers;
+    defaultSettings.assessmentMode = fullSettings.assessmentMode;
+    defaultSettings.showGivenAnswers = fullSettings.showGivenAnswers;
+
     defaultSettings.background = fullSettings.branding && fullSettings.branding.background;
     defaultSettings.xApi = fullSettings.xApi;
     defaultSettings.pdfExport = fullSettings.pdfExport;
