@@ -52,11 +52,13 @@
 	__webpack_require__(345);
 	__webpack_require__(350);
 	__webpack_require__(351);
-	__webpack_require__(307);
 	__webpack_require__(352);
 	__webpack_require__(353);
-	__webpack_require__(358);
-	module.exports = __webpack_require__(360);
+	__webpack_require__(307);
+	__webpack_require__(354);
+	__webpack_require__(355);
+	__webpack_require__(360);
+	module.exports = __webpack_require__(362);
 
 
 /***/ },
@@ -11936,11 +11938,11 @@
 
 
 	function initialize(configs) {
-	    var templateSetting = (0, _templateSettings2.default)(configs.templateSettings, configs.themeSettings, configs.manifest);
-	    var translations = (0, _translations2.default)(configs.translations, templateSetting);
+	    var templateSettings = (0, _templateSettings2.default)(configs.templateSettings, configs.themeSettings, configs.manifest);
+	    var translations = (0, _translations2.default)(configs.translations, templateSettings);
 
 	    return {
-	        templateSetting: templateSetting,
+	        templateSettings: templateSettings,
 	        translations: translations
 	    };
 	}
@@ -12009,31 +12011,110 @@
 	        defaultSettings.sectionsLayout = fullSettings.sectionsLayout.key;
 	    }
 
-	    defaultSettings.treeOfContent = fullSettings.treeOfContent;
-	    defaultSettings.colors = fullSettings.branding.colors;
-	    defaultSettings.fonts = fullSettings.fonts;
+	    /** Tree of content */
+	    if (fullSettings.treeOfContent) {
+	        defaultSettings.treeOfContent = fullSettings.treeOfContent;
+	    }
 
-	    defaultSettings.timer = fullSettings.timer && fullSettings.timer.enabled && fullSettings.timer;
-	    defaultSettings.questionPool = fullSettings.questionPool && fullSettings.questionPool.mode && fullSettings.questionPool;
-	    defaultSettings.attempt = fullSettings.attempt && fullSettings.attempt.hasLimit && fullSettings.attempt.limit && fullSettings.attempt;
-	    defaultSettings.answers = fullSettings.answers && fullSettings.answers.randomize && fullSettings.answers;
-	    defaultSettings.assessmentMode = fullSettings.assessmentMode;
-	    defaultSettings.showGivenAnswers = fullSettings.showGivenAnswers;
+	    /** Colors */
+	    if (fullSettings.branding && fullSettings.branding.colors) {
+	        defaultSettings.colors = fullSettings.branding.colors;
+	    }
 
-	    defaultSettings.background = fullSettings.branding && fullSettings.branding.background;
-	    defaultSettings.xApi = fullSettings.xApi;
-	    defaultSettings.pdfExport = fullSettings.pdfExport;
-	    defaultSettings.showConfirmationPopup = fullSettings.showConfirmationPopup;
-	    defaultSettings.allowContentPagesScoring = fullSettings.allowContentPagesScoring;
-	    defaultSettings.allowCrossDeviceSaving = fullSettings.allowCrossDeviceSaving;
-	    defaultSettings.allowLoginViaSocialMedia = fullSettings.allowLoginViaSocialMedia;
+	    /** Fonts */
+	    if (fullSettings.fonts) {
+	        defaultSettings.fonts = fullSettings.fonts;
+	    }
 
-	    defaultSettings.hideFinishActionButtons = fullSettings.hideFinishActionButtons;
-	    defaultSettings.hideTryAgain = fullSettings.hideTryAgain;
+	    /** Timer */
+	    if (fullSettings.timer && fullSettings.timer.hasOwnProperty("enabled")) {
+	        defaultSettings.timer = fullSettings.timer;
+	    }
 
-	    defaultSettings.languages.selected = fullSettings.languages.selected;
-	    defaultSettings.languages.customTranslations = fullSettings.languages.customTranslations;
-	    defaultSettings.copyright = fullSettings.copyright;
+	    /** Question pool */
+	    if (fullSettings.questionPool && fullSettings.questionPool.mode) {
+	        defaultSettings.questionPool = fullSettings.questionPool;
+	    }
+
+	    /** Attempt */
+	    if (fullSettings.attempt && fullSettings.attempt.hasOwnProperty("hasLimit") && fullSettings.attempt.limit) {
+	        defaultSettings.attempt = fullSettings.attempt;
+	    }
+
+	    /** Answers */
+	    if (fullSettings.answers && fullSettings.answers.hasOwnProperty("randomize")) {
+	        defaultSettings.answers = fullSettings.answers;
+	    }
+
+	    /** Assessment mode */
+	    if (fullSettings.assessmentMode) {
+	        defaultSettings.assessmentMode = fullSettings.assessmentMode;
+	    }
+
+	    /** Show given answers */
+	    if (fullSettings.hasOwnProperty("showGivenAnswers")) {
+	        defaultSettings.showGivenAnswers = fullSettings.showGivenAnswers;
+	    }
+
+	    /** Background */
+	    if (fullSettings.branding && fullSettings.branding.background) {
+	        defaultSettings.background = fullSettings.branding.background;
+	    }
+
+	    /** xApi */
+	    if (fullSettings.xApi) {
+	        defaultSettings.xApi = fullSettings.xApi;
+	    }
+
+	    /** Pdf export */
+	    if (fullSettings.pdfExport) {
+	        defaultSettings.pdfExport = fullSettings.pdfExport;
+	    }
+
+	    /** Show confirmation popup */
+	    if (fullSettings.hasOwnProperty("showConfirmationPopup")) {
+	        defaultSettings.showConfirmationPopup = fullSettings.showConfirmationPopup;
+	    }
+
+	    /** Allow content paging scoring */
+	    if (fullSettings.hasOwnProperty("allowContentPagesScoring")) {
+	        defaultSettings.allowContentPagesScoring = fullSettings.allowContentPagesScoring;
+	    }
+
+	    /** Allow cross device saving */
+	    if (fullSettings.hasOwnProperty("allowCrossDeviceSaving")) {
+	        defaultSettings.allowCrossDeviceSaving = fullSettings.allowCrossDeviceSaving;
+	    }
+
+	    /** Allow login via social media */
+	    if (fullSettings.hasOwnProperty("allowLoginViaSocialMedia")) {
+	        defaultSettings.allowLoginViaSocialMedia = fullSettings.allowLoginViaSocialMedia;
+	    }
+
+	    /** Hide finish action buttons */
+	    if (fullSettings.hasOwnProperty("hideFinishActionButtons")) {
+	        defaultSettings.hideFinishActionButtons = fullSettings.hideFinishActionButtons;
+	    }
+
+	    /** Hide try again */
+	    if (fullSettings.hasOwnProperty("hideTryAgain")) {
+	        defaultSettings.hideTryAgain = fullSettings.hideTryAgain;
+	    }
+
+	    /** Selected language */
+	    if (fullSettings.languages && fullSettings.languages.hasOwnProperty("selected")) {
+	        defaultSettings.languages.selected = fullSettings.languages.selected;
+	    }
+
+	    /** Custom translations */
+	    if (fullSettings.languages && fullSettings.languages.customTranslations) {
+	        defaultSettings.languages.customTranslations = fullSettings.languages.customTranslations;
+	    }
+
+	    /** Copyright */
+	    if (fullSettings.copyright) {
+	        defaultSettings.copyright = fullSettings.copyright;
+	    }
 
 	    updateSettingsFromQueryString();
 	    updateSettingsByMode();
@@ -12163,6 +12244,220 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	var configs = {
+	    vars: {}
+	};
+
+	var Plugin = function () {
+	    function Plugin() {
+	        _classCallCheck(this, Plugin);
+	    }
+
+	    _createClass(Plugin, null, [{
+	        key: 'load',
+	        value: function load(colors, fonts) {
+	            clearLocalStorage();
+
+	            for (var i = 0; i < colors.length; i++) {
+	                if (!colors[i] || !colors[i].value) {
+	                    return;
+	                }
+
+	                configs.vars[colors[i].key] = colors[i].value;
+	            }
+
+	            for (var i = 0; i < fonts.length; i++) {
+	                for (var prop in fonts[i]) {
+	                    if (prop === 'key' || prop === 'isGeneralSelected' || prop === 'isGeneralColorSelected' || prop === 'place' || fonts[i][prop] == null) {
+	                        continue;
+	                    }
+
+	                    if (prop === 'size') {
+	                        configs.vars['@' + fonts[i].key + '-' + prop] = fonts[i][prop] + 'px';
+	                    } else {
+	                        configs.vars['@' + fonts[i].key + '-' + prop] = fonts[i][prop];
+	                    }
+	                }
+	            }
+
+	            return less.modifyVars(configs.vars);
+	        }
+	    }]);
+
+	    return Plugin;
+	}();
+
+	window.LessProcessor = Plugin;
+	exports.default = Plugin;
+
+
+	function clearLocalStorage() {
+	    if (!window.localStorage || !less) {
+	        return;
+	    }
+
+	    var host = window.location.host;
+	    var protocol = window.location.protocol;
+	    var keyPrefix = protocol + '//' + host + '/css/colors.less';
+
+	    for (var key in window.localStorage) {
+	        if (!window.localStorage.hasOwnProperty(key)) {
+	            continue;
+	        }
+
+	        if (key.indexOf(keyPrefix) === 0) {
+	            delete window.localStorage[key];
+	        }
+	    }
+	}
+
+/***/ },
+/* 351 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Plugin = function () {
+	    function Plugin() {
+	        _classCallCheck(this, Plugin);
+	    }
+
+	    _createClass(Plugin, null, [{
+	        key: "load",
+	        value: function load(fonts, manifest, publishSettings) {
+	            return new Promise(function (resolve, reject) {
+	                var customFonts = manifest.fonts.map(function (font) {
+	                    return font.fontFamily;
+	                });
+
+	                var familiesToLoad = fonts.map(function (font) {
+	                    return { "fontFamily": font.fontFamily, "variants": ["300", "400", "600"], "place": font.place };
+	                });
+
+	                familiesToLoad = familiesToLoad.filter(function (font, index, array) {
+	                    return array.indexOf(font) == index;
+	                });
+
+	                familiesToLoad = familiesToLoad.filter(function (font) {
+	                    return font.place !== 'none' && !~customFonts.indexOf(font.fontFamily);
+	                });
+
+	                if (!familiesToLoad && !familiesToLoad.length) {
+	                    familiesToLoad = [{ "fontFamily": 'Open Sans', "variants": ["300", "400", "600"], "place": 'google' }];
+	                }
+
+	                var defers = [];
+
+	                //Load theme fonts
+	                defers.push(new Promise(function (resolve, reject) {
+	                    var fontLoaderConfig = {
+	                        active: function active() {
+	                            resolve();
+	                        },
+	                        inactive: function inactive() {
+	                            //added to make possible ofline template loading
+	                            resolve();
+	                        }
+	                    };
+
+	                    if (familiesToLoad.length) {
+	                        for (var i = 0; i < familiesToLoad.length; i++) {
+	                            if (fontLoaderConfig.hasOwnProperty(familiesToLoad[i].place)) {
+	                                fontLoaderConfig[familiesToLoad[i].place].families.push(mapFontName(familiesToLoad[i]));
+	                            } else if (familiesToLoad[i].place === 'custom') {
+	                                fontLoaderConfig.custom = {
+	                                    families: [mapFontName(familiesToLoad[i])],
+	                                    urls: [publishSettings.customFontPlace]
+	                                };
+	                            } else {
+	                                fontLoaderConfig[familiesToLoad[i].place] = {
+	                                    families: [mapFontName(familiesToLoad[i])]
+	                                };
+	                            }
+	                        };
+	                    }
+
+	                    window.WebFont && WebFont.load(fontLoaderConfig);
+	                }));
+
+	                //Load template fonts
+	                if (manifest.fonts && manifest.fonts.length) {
+	                    var manifestFonts;
+
+	                    (function () {
+	                        manifestFonts = manifest.fonts;
+
+
+	                        var fontUrls = manifestFonts.map(function (font) {
+	                            return font.url;
+	                        });
+
+	                        fontUrls = fontUrls.filter(function (url, index, array) {
+	                            return array.indexOf(url) == index;
+	                        });
+
+	                        defers.push(new Promise(function (resolve, reject) {
+	                            var fontLoaderConfig = {
+	                                active: function active() {
+	                                    resolve();
+	                                },
+	                                custom: {
+	                                    families: [],
+	                                    urls: fontUrls
+	                                },
+	                                inactive: function inactive() {
+	                                    //added to make possible ofline template loading
+	                                    resolve();
+	                                }
+	                            };
+
+	                            fontLoaderConfig.custom.families = manifestFonts.map(mapFontName);
+
+	                            window.WebFont && WebFont.load(fontLoaderConfig);
+	                        }));
+	                    })();
+	                }
+
+	                Promise.all(defers).then(function () {
+	                    resolve();
+	                });
+	            });
+	        }
+	    }]);
+
+	    return Plugin;
+	}();
+
+	window.WebFontLoader = Plugin;
+	exports.default = Plugin;
+
+
+	function mapFontName(fontToLoad) {
+	    return fontToLoad.fontFamily + (fontToLoad.variants && fontToLoad.variants.length ? ':' + fontToLoad.variants.join(',') : '');
+	}
+
+/***/ },
+/* 352 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 	var _translations = [];
 
 	var Plugin = function () {
@@ -12223,7 +12518,7 @@
 	}
 
 /***/ },
-/* 351 */
+/* 353 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -12387,7 +12682,7 @@
 	})();
 
 /***/ },
-/* 352 */
+/* 354 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -12404,31 +12699,31 @@
 	    window.onload = function () {
 	        WebFont.load({
 	            google: {
-	                families: ['Open+Sans:400,600:latin,cyrillic-ext']
+	                families: ['Open+Sans:300,400,600:latin,cyrillic-ext']
 	            }
 	        });
 	    };
 	})();
 
 /***/ },
-/* 353 */
+/* 355 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 354 */,
-/* 355 */,
 /* 356 */,
 /* 357 */,
-/* 358 */
+/* 358 */,
+/* 359 */,
+/* 360 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 359 */,
-/* 360 */
+/* 361 */,
+/* 362 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin

@@ -1,15 +1,15 @@
 let defaultSettings = {
-        masteryScore: {
-            score: 100
-        },
-        logoUrl: '',
-        sectionsLayout: {
-            key: ''
-        },
-        xApi: {},
-        pdfExport: {},
-        languages: {}
-    };
+    masteryScore: {
+        score: 100
+    },
+    logoUrl: '',
+    sectionsLayout: {
+        key: ''
+    },
+    xApi: {},
+    pdfExport: {},
+    languages: {}
+};
 
 export default (settings, themeSettings, manifest) => {
     let preset = manifest && Array.isArray(manifest.presets) ? manifest.presets[0] : null;
@@ -52,32 +52,112 @@ export default (settings, themeSettings, manifest) => {
     if (fullSettings.sectionsLayout && (fullSettings.sectionsLayout.key !== null || fullSettings.sectionsLayout.key.trim() !== '')) {
         defaultSettings.sectionsLayout = fullSettings.sectionsLayout.key;
     }
-    
-    defaultSettings.treeOfContent = fullSettings.treeOfContent;
-    defaultSettings.colors = fullSettings.branding.colors;
-    defaultSettings.fonts = fullSettings.fonts;
 
-    defaultSettings.timer = (fullSettings.timer && fullSettings.timer.enabled) && fullSettings.timer;
-    defaultSettings.questionPool = (fullSettings.questionPool && fullSettings.questionPool.mode) && fullSettings.questionPool;
-    defaultSettings.attempt = (fullSettings.attempt && fullSettings.attempt.hasLimit && fullSettings.attempt.limit) && fullSettings.attempt;
-    defaultSettings.answers = (fullSettings.answers && fullSettings.answers.randomize) && fullSettings.answers;
-    defaultSettings.assessmentMode = fullSettings.assessmentMode;
-    defaultSettings.showGivenAnswers = fullSettings.showGivenAnswers;
+    /** Tree of content */
+    if(fullSettings.treeOfContent) {
+        defaultSettings.treeOfContent = fullSettings.treeOfContent;
+    }
 
-    defaultSettings.background = fullSettings.branding && fullSettings.branding.background;
-    defaultSettings.xApi = fullSettings.xApi;
-    defaultSettings.pdfExport = fullSettings.pdfExport;
-    defaultSettings.showConfirmationPopup = fullSettings.showConfirmationPopup;
-    defaultSettings.allowContentPagesScoring = fullSettings.allowContentPagesScoring;
-    defaultSettings.allowCrossDeviceSaving = fullSettings.allowCrossDeviceSaving;
-    defaultSettings.allowLoginViaSocialMedia = fullSettings.allowLoginViaSocialMedia;
+    /** Colors */
+    if(fullSettings.branding && fullSettings.branding.colors) {
+        defaultSettings.colors = fullSettings.branding.colors;
+    }
 
-    defaultSettings.hideFinishActionButtons = fullSettings.hideFinishActionButtons;
-    defaultSettings.hideTryAgain = fullSettings.hideTryAgain;
-    
-    defaultSettings.languages.selected = fullSettings.languages.selected;
-    defaultSettings.languages.customTranslations = fullSettings.languages.customTranslations;
-    defaultSettings.copyright = fullSettings.copyright;
+    /** Fonts */
+    if(fullSettings.fonts) {
+        defaultSettings.fonts = fullSettings.fonts;
+    }
+
+    /** Timer */
+    if(fullSettings.timer && fullSettings.timer.hasOwnProperty("enabled")) {
+        defaultSettings.timer = fullSettings.timer;
+    }
+
+    /** Question pool */
+    if(fullSettings.questionPool && fullSettings.questionPool.mode) {
+        defaultSettings.questionPool = fullSettings.questionPool
+    }
+
+    /** Attempt */
+    if(fullSettings.attempt && fullSettings.attempt.hasOwnProperty("hasLimit") && fullSettings.attempt.limit) {
+        defaultSettings.attempt = fullSettings.attempt;
+    }
+
+    /** Answers */
+    if(fullSettings.answers && fullSettings.answers.hasOwnProperty("randomize")) {
+        defaultSettings.answers = fullSettings.answers;
+    }
+
+    /** Assessment mode */
+    if(fullSettings.assessmentMode) {
+        defaultSettings.assessmentMode = fullSettings.assessmentMode;
+    }
+
+    /** Show given answers */    
+    if(fullSettings.hasOwnProperty("showGivenAnswers")) {
+        defaultSettings.showGivenAnswers = fullSettings.showGivenAnswers;
+    }
+
+    /** Background */
+    if(fullSettings.branding && fullSettings.branding.background) {
+        defaultSettings.background = fullSettings.branding.background;
+    }
+
+    /** xApi */
+    if(fullSettings.xApi) {
+        defaultSettings.xApi = fullSettings.xApi;
+    }
+
+    /** Pdf export */
+    if(fullSettings.pdfExport) {
+        defaultSettings.pdfExport = fullSettings.pdfExport;
+    }
+
+    /** Show confirmation popup */
+    if(fullSettings.hasOwnProperty("showConfirmationPopup")) {
+        defaultSettings.showConfirmationPopup = fullSettings.showConfirmationPopup;
+    }
+
+    /** Allow content paging scoring */
+    if(fullSettings.hasOwnProperty("allowContentPagesScoring")) {
+        defaultSettings.allowContentPagesScoring = fullSettings.allowContentPagesScoring;
+    }
+
+    /** Allow cross device saving */
+    if(fullSettings.hasOwnProperty("allowCrossDeviceSaving")) {
+        defaultSettings.allowCrossDeviceSaving = fullSettings.allowCrossDeviceSaving;
+    }
+
+    /** Allow login via social media */
+    if(fullSettings.hasOwnProperty("allowLoginViaSocialMedia")) {
+        defaultSettings.allowLoginViaSocialMedia = fullSettings.allowLoginViaSocialMedia;
+    }
+
+
+    /** Hide finish action buttons */
+    if(fullSettings.hasOwnProperty("hideFinishActionButtons")) {
+        defaultSettings.hideFinishActionButtons = fullSettings.hideFinishActionButtons;
+    }
+
+    /** Hide try again */
+    if(fullSettings.hasOwnProperty("hideTryAgain")) {
+        defaultSettings.hideTryAgain = fullSettings.hideTryAgain;
+    }
+
+    /** Selected language */
+    if(fullSettings.languages && fullSettings.languages.hasOwnProperty("selected")) {
+        defaultSettings.languages.selected = fullSettings.languages.selected;
+    }
+
+    /** Custom translations */
+    if(fullSettings.languages && fullSettings.languages.customTranslations) {
+        defaultSettings.languages.customTranslations = fullSettings.languages.customTranslations;
+    }
+
+    /** Copyright */    
+    if(fullSettings.copyright) {
+        defaultSettings.copyright = fullSettings.copyright;
+    }
 
     updateSettingsFromQueryString();
     updateSettingsByMode();
