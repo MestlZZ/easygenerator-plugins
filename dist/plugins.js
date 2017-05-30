@@ -11893,7 +11893,13 @@
 	                client.open('GET', filename + '?_=' + ticks);
 	                client.onload = function () {
 	                    if (client.status == 200 && client.responseText.length > 0) {
-	                        resolve(JSON.parse(client.responseText));
+	                        try {
+	                            var object = JSON.parse(client.responseText);
+	                            resolve(object);
+	                        } catch (e) {
+	                            console.error('File \'' + filename + '\' is\'t parsed to object: ' + e);
+	                            resolve({});
+	                        }
 	                    } else {
 	                        resolve({});
 	                    }
@@ -11957,7 +11963,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var defaultSettings = {
+	var fullSettings = {
 	    masteryScore: {
 	        score: 100
 	    },
@@ -11994,60 +12000,27 @@
 
 	    var designSettings = Object.assign(defaultThemeSettings, themeSettings);
 	    var templateSettings = Object.assign(defaultTemplateSettings, settings);
-	    var fullSettings = deepExtend(templateSettings, designSettings);
 
-	    _PropertyChecker2.default.isPropertiesDefined(fullSettings, { attempt: ['hasLimit', 'limit'] }) && (defaultSettings.attempt = fullSettings.attempt);
+	    fullSettings = deepExtend(templateSettings, designSettings);
 
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'languages.customTranslations') && (defaultSettings.languages.customTranslations = fullSettings.languages.customTranslations);
+	    _PropertyChecker2.default.isPropertiesDefined(fullSettings, { attempt: ['hasLimit', 'limit'] }) || delete fullSettings.attempt;
 
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'allowLoginViaSocialMedia') && (defaultSettings.allowLoginViaSocialMedia = fullSettings.allowLoginViaSocialMedia);
+	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'branding.background') && (fullSettings.background = fullSettings.branding.background);
 
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'allowContentPagesScoring') && (defaultSettings.allowContentPagesScoring = fullSettings.allowContentPagesScoring);
+	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'sectionsLayout.key') && (fullSettings.sectionsLayout = fullSettings.sectionsLayout.key);
 
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'hideFinishActionButtons') && (defaultSettings.hideFinishActionButtons = fullSettings.hideFinishActionButtons);
+	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'branding.logo.url') && (fullSettings.logoUrl = fullSettings.branding.logo.url);
 
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'allowCrossDeviceSaving') && (defaultSettings.allowCrossDeviceSaving = fullSettings.allowCrossDeviceSaving);
+	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'answers.randomize') || delete fullSettings.answers;
 
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'showConfirmationPopup') && (defaultSettings.showConfirmationPopup = fullSettings.showConfirmationPopup);
+	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'branding.colors') && (fullSettings.colors = fullSettings.branding.colors);
 
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'branding.background') && (defaultSettings.background = fullSettings.branding.background);
-
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'languages.selected') && (defaultSettings.languages.selected = fullSettings.languages.selected);
-
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'sectionsLayout.key') && (defaultSettings.sectionsLayout = fullSettings.sectionsLayout.key);
-
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'masteryScore.score') && (defaultSettings.masteryScore.score = fullSettings.masteryScore.score);
-
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'branding.logo.url') && (defaultSettings.logoUrl = fullSettings.branding.logo.url);
-
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'questionPool.mode') && (defaultSettings.questionPool = fullSettings.questionPool);
-
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'answers.randomize') && (defaultSettings.answers = fullSettings.answers);
-
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'showGivenAnswers') && (defaultSettings.showGivenAnswers = fullSettings.showGivenAnswers);
-
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'branding.colors') && (defaultSettings.colors = fullSettings.branding.colors);
-
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'assessmentMode') && (defaultSettings.assessmentMode = fullSettings.assessmentMode);
-
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'treeOfContent') && (defaultSettings.treeOfContent = fullSettings.treeOfContent);
-
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'timer.enabled') && (defaultSettings.timer = fullSettings.timer);
-
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'hideTryAgain') && (defaultSettings.hideTryAgain = fullSettings.hideTryAgain);
-
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'pdfExport') && (defaultSettings.pdfExport = fullSettings.pdfExport);
-
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'copyright') && (defaultSettings.copyright = fullSettings.copyright);
-
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'fonts') && (defaultSettings.fonts = fullSettings.fonts);
-
-	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'xApi') && (defaultSettings.xApi = fullSettings.xApi);
+	    _PropertyChecker2.default.isPropertyDefined(fullSettings, 'timer.enabled') || delete fullSettings.timer;
 
 	    updateSettingsFromQueryString();
 	    updateSettingsByMode();
 
-	    return defaultSettings;
+	    return fullSettings;
 	};
 
 	function isNaturalNumber(n) {
@@ -12096,14 +12069,14 @@
 	    var crossDevice = getQueryStringValue('cross-device');
 
 	    if (isXapiDisabled()) {
-	        defaultSettings.xApi.enabled = false;
+	        fullSettings.xApi.enabled = false;
 	    }
 	    if (isCrossDeviceDisabled()) {
-	        defaultSettings.allowCrossDeviceSaving = false;
+	        fullSettings.allowCrossDeviceSaving = false;
 	    }
 
 	    function isXapiDisabled() {
-	        return !defaultSettings.xApi.required && !(xapi === null || xapi === undefined) && xapi.toLowerCase() === 'false';
+	        return !fullSettings.xApi.required && !(xapi === null || xapi === undefined) && xapi.toLowerCase() === 'false';
 	    }
 
 	    function isCrossDeviceDisabled() {
@@ -12114,8 +12087,8 @@
 	function updateSettingsByMode() {
 	    var reviewApiUrl = getQueryStringValue('reviewApiUrl');
 	    if (location.href.indexOf('/preview/') !== -1 || !!reviewApiUrl) {
-	        defaultSettings.allowCrossDeviceSaving = false;
-	        defaultSettings.xApi.enabled = false;
+	        fullSettings.allowCrossDeviceSaving = false;
+	        fullSettings.xApi.enabled = false;
 	    }
 	}
 
